@@ -119,6 +119,7 @@ scissorsButtonEl.addEventListener("click", () => handleGuess("scissors"));
 restartButtonEl.addEventListener("click", () => startMatch());
 
 function handleWin(botAnswer) {
+    playing = false;
     document.getElementsByTagName("body")[0].classList.add("win");
     setTimeout(() => {
         document.getElementsByTagName("body")[0].classList.remove("win");
@@ -143,6 +144,7 @@ function handleWin(botAnswer) {
 }
 
 function handleLoss(botAnswer) {
+    playing = false;
     document.getElementsByTagName("body")[0].classList.add("lose");
     setTimeout(() => {
         document.getElementsByTagName("body")[0].classList.remove("lose");
@@ -151,7 +153,6 @@ function handleLoss(botAnswer) {
         botAnswer[0].toUpperCase() + botAnswer.slice(1)
     }`;
     messageEl.textContent = "Aw man... ( You lose :( )";
-    playing = false;
     if (currScore > highScore) {
         highScore = currScore;
         highScoreEl.textContent = highScore;
@@ -159,6 +160,7 @@ function handleLoss(botAnswer) {
 }
 
 function handleDraw(botAnswer) {
+    playing = false;
     document.getElementsByTagName("body")[0].classList.add("draw");
     setTimeout(() => {
         document.getElementsByTagName("body")[0].classList.remove("draw");
