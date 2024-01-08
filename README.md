@@ -14,8 +14,7 @@ There is no instruction, try to guess the game mechanic without looking at the s
 
 ## Demo
 
-![gameplay](https://github.com/Joes131205/mindshambo/assets/86814315/d913c46a-55d7-4451-ac76-c6548e12946d)
-
+![gameplay](https://github.com/Joes131205/mindshambo/assets/86814315/986065cf-ee7a-4e4f-acf8-2ed50c57b6a9)
 
 ###
 
