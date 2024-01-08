@@ -51,3 +51,9 @@ Want to contribute this dumb game?
 ## Credit
 
 [Pixeloid Font](https://www.fontspace.com/pixeloid-font-f69232)
+
+###
+
+## License
+
+This project is licensed under MIT License - [[License File]](https://github.com/Joes131205/mindshambo/blob/main/LICENSE)
