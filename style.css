@@ -13,6 +13,7 @@ body {
     gap: 50px;
     background: rgb(24, 24, 24);
     color: white;
+    transition: 0.3s;
 }
 
 .container {
@@ -22,7 +23,8 @@ body {
 }
 
 .container > div {
-    padding: 5rem 10rem;
+    white-space: nowrap;
+    padding: 5rem 14rem;
     background: rgb(12, 12, 12);
     border: 5px solid white;
     box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
@@ -57,6 +59,16 @@ body {
     transform: translateY(2px);
     box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
 }
+
+.container-bot {
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    font-size: x-large;
+}
+
 .status {
     display: flex;
     justify-content: center;
@@ -69,6 +81,9 @@ body {
     padding: 3rem 2rem;
     background: rgb(12, 12, 12);
     border: 5px solid white;
+    font-family: "Pixeloid Sans", monospace;
+    font-weight: bolder;
+    border-radius: 20px;
 }
 
 #restartButton {
@@ -93,4 +108,19 @@ body {
 #restartButton:active {
     transform: translateY(2px);
     box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
+
+.win {
+    transition: 0.3s;
+    background: rgb(0, 27, 0);
+}
+
+.draw {
+    transition: 0.3s;
+    background: rgb(27, 27, 0);
+}
+
+.lose {
+    transition: 0.3s;
+    background-color: rgb(27, 0, 0);
 }

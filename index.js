@@ -18,6 +18,8 @@ let totalCorrects = 0;
 let currentCategory = "";
 let currentResponse = "";
 
+let playing = true;
+
 function generateNumber() {
     return Math.floor(Math.random() * 100) + 1;
 }
@@ -86,7 +88,14 @@ const categories = [
     },
 ];
 
+function startMatch() {
+    currScore = 0;
+    startRound();
+}
+
 async function startRound() {
+    messageEl.textContent = "The bot is thinking...";
+
     currentScoreEl.textContent = currScore;
     totalCorrectsEl.textContent = totalCorrects;
 
@@ -95,9 +104,11 @@ async function startRound() {
     currentCategory = category.name;
     currentResponse = await category.answer();
 
-    await console.log(currentCategory, currentResponse);
-
     messageEl.textContent = currentResponse;
+
+    botAnswerEl.textContent = "???";
+
+    playing = true;
 }
 
 startRound();
@@ -105,23 +116,102 @@ startRound();
 rockButtonEl.addEventListener("click", () => handleGuess("rock"));
 paperButtonEl.addEventListener("click", () => handleGuess("paper"));
 scissorsButtonEl.addEventListener("click", () => handleGuess("scissors"));
+restartButtonEl.addEventListener("click", () => startMatch());
+
+function handleWin(botAnswer) {
+    document.getElementsByTagName("body")[0].classList.add("win");
+    setTimeout(() => {
+        document.getElementsByTagName("body")[0].classList.remove("win");
+    }, 500);
+    botAnswerEl.textContent = `The bot chose: ${
+        botAnswer[0].toUpperCase() + botAnswer.slice(1)
+    }`;
+    currScore++;
+    currentScoreEl.textContent = currScore;
+
+    totalCorrects++;
+    totalCorrectsEl.textContent = totalCorrects;
+
+    messageEl.textContent = "You got it!";
+    setTimeout(() => {
+        messageEl.textContent = "The bot is thinking...";
+    }, 3000);
+
+    setTimeout(() => {
+        startRound();
+    }, 3000);
+}
+
+function handleLoss(botAnswer) {
+    document.getElementsByTagName("body")[0].classList.add("lose");
+    setTimeout(() => {
+        document.getElementsByTagName("body")[0].classList.remove("lose");
+    }, 500);
+    botAnswerEl.textContent = `The bot chose: ${
+        botAnswer[0].toUpperCase() + botAnswer.slice(1)
+    }`;
+    messageEl.textContent = "Aw man... ( You lose :( )";
+    playing = false;
+    if (currScore > highScore) {
+        highScore = currScore;
+        highScoreEl.textContent = highScore;
+    }
+}
+
+function handleDraw(botAnswer) {
+    document.getElementsByTagName("body")[0].classList.add("draw");
+    setTimeout(() => {
+        document.getElementsByTagName("body")[0].classList.remove("draw");
+    }, 500);
+    botAnswerEl.textContent = `The bot chose: ${
+        botAnswer[0].toUpperCase() + botAnswer.slice(1)
+    }`;
+    messageEl.textContent = "Draw! The game continues!";
+    setTimeout(() => {
+        messageEl.textContent = "The bot is thinking...";
+    }, 3000);
+
+    setTimeout(() => {
+        startRound();
+    }, 3000);
+}
+
+function handleAnswer(playerAnswer, botAnswer) {
+    if (playerAnswer === "rock") {
+        if (botAnswer === "paper") {
+            handleLoss(botAnswer);
+        } else if (botAnswer === "scissors") {
+            handleWin(botAnswer);
+        } else {
+            handleDraw(botAnswer);
+        }
+    } else if (playerAnswer === "paper") {
+        if (botAnswer === "scissors") {
+            handleLoss(botAnswer);
+        } else if (botAnswer === "rock") {
+            handleWin(botAnswer);
+        } else {
+            handleDraw(botAnswer);
+        }
+    } else if (playerAnswer === "scissors") {
+        if (botAnswer === "rock") {
+            handleLoss(botAnswer);
+        } else if (botAnswer === "paper") {
+            handleWin(botAnswer);
+        } else {
+            handleDraw(botAnswer);
+        }
+    }
+}
 
 function handleGuess(currAnswer) {
-    const botAnswer =
-        categories[
-            categories.findIndex(
-                (category) => category.name === currentCategory
-            )
-        ].condition(currentResponse);
-    console.log(botAnswer, currAnswer);
-    if (botAnswer === currAnswer) {
-        currScore++;
-        totalCorrects++;
-        console.log(true);
-        startRound();
-    } else {
-        console.log(false);
-        currScore = 0;
-        startRound();
+    if (playing) {
+        const botAnswer =
+            categories[
+                categories.findIndex(
+                    (category) => category.name === currentCategory
+                )
+            ].condition(currentResponse);
+        handleAnswer(currAnswer, botAnswer);
     }
 }
